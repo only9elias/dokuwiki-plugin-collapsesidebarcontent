@@ -32,8 +32,8 @@ When creating or updating DokuWiki plugin metadata (`plugin.info.txt`, and match
   Do not use personal email addresses. Do not substitute a fallback if the
   variable is missing — ask instead.
 - **author:** only9elias
-- **url:** https://github.com/only9elias/dokuwiki-plugin-collapsetoccontent
-- **base:** `collapsetoccontent` (repo name without the `dokuwiki-plugin-` prefix)
+- **url:** https://github.com/only9elias/dokuwiki-plugin-collapsesidebarcontent
+- **base:** `collapsesidebarcontent` (repo name without the `dokuwiki-plugin-` prefix)
 - **date:** `YYYY-MM-DD` of the last meaningful change when touching `plugin.info.txt`
 
 Support and bug reports are via GitHub Issues (`url`), not email.
