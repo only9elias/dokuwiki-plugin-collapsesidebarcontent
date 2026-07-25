@@ -1,6 +1,6 @@
 # dokuwiki-plugin-collapsesidebarcontent
 
-A DokuWiki plugin. DokuWiki loads a plugin from `lib/plugins/<name>/`, where `<name>`
+A DokuWiki plugin for collapsing content within the sidebar. DokuWiki loads a plugin from `lib/plugins/<name>/`, where `<name>`
 is this repo name **without** the `dokuwiki-plugin-` prefix — i.e. `collapsesidebarcontent`.
 
 ## Cursor Cloud specific instructions
@@ -22,3 +22,21 @@ flat-file PHP wiki (no database).
 - DokuWiki caches rendered pages and compiled CSS/JS. After changing plugin CSS/JS or
   markup output, purge with `rm -rf ~/dokuwiki/data/cache/*` or append `&purge=true` to a
   page URL to see changes.
+
+## Plugin metadata conventions
+
+When creating or updating DokuWiki plugin metadata (`plugin.info.txt`, and matching
+`@author` / contact lines in PHP file headers where applicable):
+
+- **email:** use the value of the `DW_PLUGIN_CONTACT_EMAIL` environment variable.
+  Do not use personal email addresses. Do not substitute a fallback if the
+  variable is missing — ask instead.
+- **author:** only9elias
+- **url:** https://github.com/only9elias/dokuwiki-plugin-collapsesidebarcontent
+- **base:** `collapsesidebarcontent` (repo name without the `dokuwiki-plugin-` prefix)
+- **date:** `YYYY-MM-DD` of the last meaningful change when touching `plugin.info.txt`
+
+Support and bug reports are via GitHub Issues (`url`), not email.
+
+Required `plugin.info.txt` fields per DokuWiki: `base`, `author`, `email`, `date`,
+`name`, `desc`, `url`. All must be non-empty.
