@@ -7,4 +7,4 @@ All notable changes to this project are documented in this file.
 - Initial MVP: collapsible heading sections and nested lists inside `#dokuwiki__aside`
 - Admin settings: `enabled`, `collapselists`, `openlevels` (default 3), `remember`, `autoexpand_current`
 - Remember open/closed state in `localStorage` (user toggles only)
-- `autoexpand_current`: expand all ancestor chains for page-level current-page links (ignores fragments)
+- `autoexpand_current`: expand all ancestor chains for page-level current-page links (ignores fragments; prefers `data-wiki-id`)
