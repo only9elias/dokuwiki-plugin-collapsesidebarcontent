@@ -1,0 +1,60 @@
+/**
+ * Collapse Sidebar Content styles
+ *
+ * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+#dokuwiki__aside .collapsesidebarcontent__toggle {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.25em 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+#dokuwiki__aside .collapsesidebarcontent__toggle:focus {
+    outline: none;
+}
+
+#dokuwiki__aside .collapsesidebarcontent__toggle:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+[dir=rtl] #dokuwiki__aside .collapsesidebarcontent__toggle {
+    margin: 0 0 0 0.25em;
+}
+
+#dokuwiki__aside .collapsesidebarcontent__icon::before {
+    content: "−";
+    display: inline-block;
+    min-width: 0.9em;
+    text-align: center;
+    font-weight: bold;
+}
+
+#dokuwiki__aside .collapsesidebarcontent__collapsed > .collapsesidebarcontent__toggle .collapsesidebarcontent__icon::before,
+#dokuwiki__aside .collapsesidebarcontent__collapsed > .li .collapsesidebarcontent__toggle .collapsesidebarcontent__icon::before,
+#dokuwiki__aside h1.collapsesidebarcontent__collapsed .collapsesidebarcontent__icon::before,
+#dokuwiki__aside h2.collapsesidebarcontent__collapsed .collapsesidebarcontent__icon::before,
+#dokuwiki__aside h3.collapsesidebarcontent__collapsed .collapsesidebarcontent__icon::before,
+#dokuwiki__aside h4.collapsesidebarcontent__collapsed .collapsesidebarcontent__icon::before,
+#dokuwiki__aside h5.collapsesidebarcontent__collapsed .collapsesidebarcontent__icon::before {
+    content: "+";
+}
+
+#dokuwiki__aside .collapsesidebarcontent__body[hidden],
+#dokuwiki__aside .collapsesidebarcontent__collapsed > ul[hidden],
+#dokuwiki__aside .collapsesidebarcontent__collapsed > ul {
+    display: none;
+}
+
+#dokuwiki__aside .collapsesidebarcontent__branch > .li > a {
+    display: inline;
+}
