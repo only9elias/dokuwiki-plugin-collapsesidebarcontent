@@ -438,7 +438,16 @@ jQuery(function () {
 
         var currentId = normalizeId(JSINFO.id);
         var $matches = $root.find('a[href]').filter(function () {
-            var href = jQuery(this).attr('href') || '';
+            var $a = jQuery(this);
+            var href = $a.attr('href') || '';
+            // Section/fragment links never count, even on the current page.
+            if (href.indexOf('#') !== -1) {
+                return false;
+            }
+            var wikiId = $a.attr('data-wiki-id');
+            if (wikiId) {
+                return normalizeId(wikiId) === currentId;
+            }
             var id = pageIdFromHref(href);
             return id !== null && id === currentId;
         });
