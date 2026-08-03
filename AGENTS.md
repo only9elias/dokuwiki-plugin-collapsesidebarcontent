@@ -1,7 +1,7 @@
 # dokuwiki-plugin-collapsesidebarcontent
 
-A DokuWiki plugin for collapsing content within the sidebar. DokuWiki loads a plugin from `lib/plugins/<name>/`, where `<name>`
-is this repo name **without** the `dokuwiki-plugin-` prefix — i.e. `collapsesidebarcontent`.
+A DokuWiki plugin for collapsing content within the sidebar. DokuWiki loads a plugin from `lib/plugins/<name>/`, where `<name>` is
+this repo name **without** the `dokuwiki-plugin-` prefix — i.e. `collapsesidebarcontent`.
 
 ## Cursor Cloud specific instructions
 
@@ -14,11 +14,11 @@ flat-file PHP wiki (no database).
 - Run the dev server from the DokuWiki dir, not this repo:
   `cd ~/dokuwiki && php -S 0.0.0.0:8000`. Then open `http://localhost:8000/doku.php`.
 - Admin login for testing: user `admin`, password `admin123` (ACL is enabled).
-- There is no build, lint, or test tooling in this repo yet (it is a skeleton). DokuWiki
-  plugins conventionally add PHPUnit tests under `_test/` that run inside DokuWiki's own
-  test harness; there is no standalone test runner here.
-- A plugin is only recognized once it contains `plugin.info.txt` plus its component
-  file(s) (e.g. `action.php`, `syntax.php`). An empty repo links fine but shows nothing.
+- There is no standalone build or lint tooling in this repo. PHPUnit tests under
+  `_test/` are meant to run inside DokuWiki’s own test harness (`~/dokuwiki`); there
+  is no standalone test runner here.
+- The plugin is an action plugin (`action.php` + `script.js` / `style.css`) that
+  enhances the sidebar `#dokuwiki__aside` markup.
 - DokuWiki caches rendered pages and compiled CSS/JS. After changing plugin CSS/JS or
   markup output, purge with `rm -rf ~/dokuwiki/data/cache/*` or append `&purge=true` to a
   page URL to see changes.
@@ -34,7 +34,17 @@ When creating or updating DokuWiki plugin metadata (`plugin.info.txt`, and match
 - **author:** only9elias
 - **url:** https://github.com/only9elias/dokuwiki-plugin-collapsesidebarcontent
 - **base:** `collapsesidebarcontent` (repo name without the `dokuwiki-plugin-` prefix)
-- **date:** `YYYY-MM-DD` of the last meaningful change when touching `plugin.info.txt`
+- **date:** Extension Manager version string (`YYYY-MM-DD`). Bump it in the **same
+  commit** as the change that ships, to that commit’s **UTC** calendar date (what
+  GitHub’s API / `devel:badextensions` compare against — e.g.
+  `TZ=UTC git log -1 --format=%ad --date=format-local:%Y-%m-%d` or `date -u +%Y-%m-%d`
+  at commit time). Keep it equal to dokuwiki.org `lastupdate` whenever the plugin
+  page exists
+  ([publishing](https://www.dokuwiki.org/devel:plugins#publishing_a_plugin_on_dokuwikiorg);
+  mismatch breaks update detection —
+  [badextensions](https://www.dokuwiki.org/devel:badextensions)). Do not leave
+  `date` behind a user-visible change on `main`, and do not bump it in a later
+  empty commit.
 
 Support and bug reports are via GitHub Issues (`url`), not email.
 

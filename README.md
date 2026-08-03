@@ -1,1 +1,63 @@
-# dokuwiki-plugin-collapsesidebarcontent
+# Collapse Sidebar Content Plugin for DokuWiki
+
+DokuWiki plugin that adds expand/collapse controls for headings and nested lists
+inside the sidebar (`#dokuwiki__aside`).
+
+## Features
+
+- Collapsible sections under sidebar headlines (no special wiki syntax)
+- Optional collapse controls on nested list branches
+- Heading/list links stay clickable (toggle is a separate control)
+- Optional remembered open/closed state in the browser (`localStorage`)
+- Optional auto-expand of ancestor chains for page-level links to the current
+  page (ignores section/fragment links; expands all matches)
+- Toggle labels are localizable via `lang/*/lang.php` (`$lang['js']`)
+
+## Installation
+
+1. Install into `lib/plugins/collapsesidebarcontent/` (Extension Manager or manual
+   copy). If the folder is named differently, the plugin will not work!
+2. Ensure the plugin is enabled.
+3. Create or edit the wiki `sidebar` page with headings and/or nested lists.
+4. Optionally adjust settings under **Admin → Configuration Settings →
+   Collapse Sidebar Content Plugin**.
+5. Purge the cache after CSS/JS changes (`&purge=true` or clear `data/cache`).
+
+Templates must keep core sidebar markup (`#dokuwiki__aside`) for the plugin to
+find and enhance the sidebar. The template’s mobile whole-sidebar `h3.toggle`
+control is left alone.
+
+Please refer to https://www.dokuwiki.org/extensions for additional info on how
+to install extensions in DokuWiki.
+
+## Configuration
+
+| Setting | Default | Description |
+| ------------ | ------- | ------------------------------------------------------------------------------------------- |
+| `enabled` | on | Enable sidebar collapse controls |
+| `collapselists` | on | Collapse nested list branches in the sidebar |
+| `openlevels` | `3` | Headline levels that start expanded (1–5). Sections at this level and below start collapsed. |
+| `remember` | on | Remember open/closed state in the browser (`localStorage`) |
+| `autoexpand_current` | off | Auto-expand ancestor sections for page-level links to the current page |
+
+With the default `openlevels = 3`, level 1–2 sections start expanded and level 3+
+start collapsed. Typical sidebars that use `=====` (level 2) as section titles
+therefore start open.
+
+`autoexpand_current` only considers links to the current page **without** a
+fragment (`#…`). If the current page appears more than once as a page-level
+link, every matching ancestor chain is expanded. Auto-expand does not write to
+`localStorage`; only explicit user toggles are remembered.
+
+## Copyright
+
+Copyright (C) only9elias <elias@noreply.blubb.app>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by the
+Free Software Foundation; version 2 of the License
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
