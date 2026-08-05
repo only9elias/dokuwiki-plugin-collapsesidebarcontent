@@ -1,5 +1,7 @@
 # Collapse Sidebar Content Plugin for DokuWiki
 
+[![made with Cursor AI](https://img.shields.io/badge/CURSOR-made_with_Cursor-26241E?logo=cursor&logoColor=ffffff&labelColor=14120B)](https://cursor.com/)
+
 DokuWiki plugin that adds expand/collapse controls for headings and nested lists
 inside the sidebar (`#dokuwiki__aside`).
 
