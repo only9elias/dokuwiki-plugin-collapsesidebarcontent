@@ -1,7 +1,7 @@
 base   collapsesidebarcontent
 author only9elias
 email  elias@noreply.blubb.app
-date   2026-08-08
+date   2026-08-30
 name   Collapse Sidebar Content Plugin
 desc   Collapse sidebar headings and nested lists with optional remembered state
 url    https://github.com/only9elias/dokuwiki-plugin-collapsesidebarcontent
