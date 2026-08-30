@@ -42,7 +42,9 @@ jQuery(function () {
     var labelCollapse = lang.toggle_close || 'Collapse sidebar section';
 
     var bodyCounter = 0;
-    var listCounter = 0;
+    var listIdCounter = 0;
+    var headingKeyCounts = {};
+    var listKeyCounts = {};
     var storageKey = buildStorageKey();
     var remembered = conf.remember ? loadRemembered() : {};
 
@@ -205,8 +207,7 @@ jQuery(function () {
             $siblings.wrapAll($body);
             $body = $heading.next('.collapsesidebarcontent__body');
 
-            var headingId = $heading.attr('id') || bodyId;
-            var key = 'h:' + headingId;
+            var key = headingRememberKey($heading);
 
             var $toggle = jQuery('<button type="button" class="collapsesidebarcontent__toggle"></button>');
             $toggle.attr('aria-controls', bodyId);
@@ -237,25 +238,107 @@ jQuery(function () {
     }
 
     /**
-     * @param {jQuery} $li
+     * @param {jQuery} $heading
      * @returns {string}
      */
-    function listBranchKey($li) {
+    function headingRememberKey($heading) {
+        var id = $heading.attr('id');
+        if (id) {
+            return 'h:' + id;
+        }
+        var tag = ($heading.prop('tagName') || 'h').toLowerCase();
+        var text = jQuery.trim($heading.text()).toLowerCase().replace(/\s+/g, ' ');
+        var base = text ? (tag + ':t:' + text) : (tag + ':anon');
+        headingKeyCounts[base] = (headingKeyCounts[base] || 0) + 1;
+        return 'h:' + base + ':' + headingKeyCounts[base];
+    }
+
+    /**
+     * Enclosing heading id, or '_' when the list is not under a heading.
+     *
+     * @param {jQuery} $el
+     * @returns {string}
+     */
+    function enclosingHeadingPart($el) {
+        var $body = $el.closest('div.collapsesidebarcontent__body');
+        if (!$body.length) {
+            return '_';
+        }
+        var $heading = $body.data('csc-heading');
+        if (!$heading || !$heading.length) {
+            $heading = $body.prev('h1, h2, h3, h4, h5');
+        }
+        if (!$heading.length) {
+            return '_';
+        }
+        var id = $heading.attr('id');
+        if (id) {
+            return id;
+        }
+        return $heading.data('csc-key') || '_';
+    }
+
+    /**
+     * @param {jQuery} $li
+     * @returns {jQuery}
+     */
+    function listBranchLink($li) {
         var $link = $li.children('div.li').find('a[href]').filter(function () {
             var href = jQuery(this).attr('href') || '';
             return href.indexOf('#') === -1;
         }).first();
-        if (!$link.length) {
-            $link = $li.children('a[href]').filter(function () {
-                var href = jQuery(this).attr('href') || '';
-                return href.indexOf('#') === -1;
-            }).first();
-        }
         if ($link.length) {
-            return 'l:' + ($link.attr('href') || '');
+            return $link;
         }
-        listCounter += 1;
-        return 'l:anon-' + listCounter;
+        return $li.children('a[href]').filter(function () {
+            var href = jQuery(this).attr('href') || '';
+            return href.indexOf('#') === -1;
+        }).first();
+    }
+
+    /**
+     * @param {jQuery} $li
+     * @returns {string}
+     */
+    function listBranchIdentity($li) {
+        var $link = listBranchLink($li);
+        if ($link.length) {
+            var wikiId = $link.attr('data-wiki-id');
+            if (wikiId) {
+                return 'id:' + normalizeId(wikiId);
+            }
+            var href = $link.attr('href') || '';
+            var pageId = pageIdFromHref(href);
+            if (pageId) {
+                return 'id:' + pageId;
+            }
+            return 'href:' + href;
+        }
+
+        var $label = $li.children('div.li').first();
+        var text;
+        if ($label.length) {
+            text = $label.text();
+        } else {
+            text = $li.clone().children('ul, ol').remove().end().text();
+        }
+        text = jQuery.trim(text).toLowerCase().replace(/\s+/g, ' ');
+        if (text) {
+            return 't:' + text;
+        }
+        return 'anon';
+    }
+
+    /**
+     * heading + identity + occurrence. DOM ids use listIdCounter, not this.
+     *
+     * @param {jQuery} $li
+     * @returns {string}
+     */
+    function listBranchKey($li) {
+        var base = enclosingHeadingPart($li) + ':' + listBranchIdentity($li);
+        listKeyCounts[base] = (listKeyCounts[base] || 0) + 1;
+        return 'l:' + base + ':' + listKeyCounts[base];
     }
 
     /**
@@ -288,8 +371,8 @@ jQuery(function () {
             var key = listBranchKey($li);
             var ulId = $childUl.attr('id');
             if (!ulId) {
-                listCounter += 1;
-                ulId = 'collapsesidebarcontent__ul-' + listCounter;
+                listIdCounter += 1;
+                ulId = 'collapsesidebarcontent__ul-' + listIdCounter;
                 $childUl.attr('id', ulId);
             }
 
